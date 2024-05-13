@@ -21,7 +21,8 @@ app.post("/chat", async (req, res) => {
       },
       {
         "role": "user",
-        "content": `Convert the above summary in ${language}. I need the summary to be exactly in ${language} not in english. You have to exactly use this language in your output.`
+        "content": `Convert the above summary in ${language}. I need the summary to be exactly in ${language} not in english. You have to exactly use this language in your output.If the 
+        ${language} is english just write the summary in english.`
       }
     ];
     
