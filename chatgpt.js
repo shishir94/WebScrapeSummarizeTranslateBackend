@@ -36,6 +36,30 @@ app.post("/chat", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+app.post("/typing-text", async (req, res) => {
+  try {
+    const { apikey, level} = req.body;
+    const openai = new OpenAI({
+      apiKey: apikey,
+    });
+    const messages = [
+      {
+        "role": "user",
+        "content": `I am giving a typing test. Give me text of ${level} level difficulty having around 120 words for the typing test. Just give me the required text and nothing else. I need only the typing text and nothing else, as I will give your output directly to the end user for typing test
+                  Dont start with irrelevant info like : "Sure, here is the text"`
+      },
+    ];
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: messages,
+    });
+    res.json(completion.choices[0]);
+  } catch (error) {
+    console.error("Error:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 const PORT = 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
